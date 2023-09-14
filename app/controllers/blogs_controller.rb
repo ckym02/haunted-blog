@@ -45,7 +45,13 @@ class BlogsController < ApplicationController
   private
 
   def set_blog
-    @blog = Blog.find(params[:id])
+    blog = current_user ? Blog.find(params[:id]) : Blog.published.find(params[:id])
+    @blog = if blog.user == current_user
+              Blog.find(params[:id])
+            else
+
+              Blog.published.find(params[:id])
+            end
   end
 
   def set_user_blog
