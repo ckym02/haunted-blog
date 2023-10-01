@@ -15,8 +15,8 @@ class Blog < ApplicationRecord
 
   scope :default_order, -> { order(id: :desc) }
 
-  scope :accessible_by_logged_in_user, lambda { |user|
-    where(secret: true, user_id: user.id).or(Blog.where(secret: false))
+  scope :accessible, lambda { |user|
+    where(user_id: user&.id).or(published)
   }
 
   def owned_by?(target_user)

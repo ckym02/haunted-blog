@@ -10,11 +10,7 @@ class BlogsController < ApplicationController
   end
 
   def show
-    @blog = if user_signed_in?
-              Blog.accessible_by_logged_in_user(current_user).find(params[:id])
-            else
-              Blog.published.find(params[:id])
-            end
+    @blog = Blog.accessible(current_user).find(params[:id])
   end
 
   def new
